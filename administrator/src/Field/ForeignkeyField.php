@@ -1,7 +1,7 @@
 <?php
 
 /**
- * @version    CVS: 1.0.0
+ * @version    CVS: 1.0.1
  * @package    Com_Icode_clientes
  * @author     Rogerio Brito <rogerio.brito@intercode.com.br>
  * @copyright  2025 Rogerio Brito

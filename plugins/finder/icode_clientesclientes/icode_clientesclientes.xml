@@ -7,7 +7,7 @@
     <license>GNU General Public License versão 2 ou posterior; consulte o arquivo License. txt</license>
     <authorEmail>rogerio.brito@intercode.com.br</authorEmail>
     <authorUrl>http://</authorUrl>
-    <version>CVS: 1.0.0</version>
+    <version>CVS: 1.0.1</version>
     <description>PLG_FINDER_COM_ICODE_CLIENTES_XML_DESCRIPTION</description>
     <files>
         <filename plugin="icode_clientesclientes">icode_clientesclientes.php</filename>

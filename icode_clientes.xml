@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension type="component" version="4.0" method="upgrade">
     <name>com_icode_clientes</name>
-    <creationDate>2025-10-18</creationDate>
+    <creationDate>2025-10-20</creationDate>
     <copyright>2025 Rogerio Brito</copyright>
     <license>GNU General Public License versão 2 ou posterior; consulte o arquivo License. txt</license>
     <author>Rogerio Brito</author>
     <authorEmail>rogerio.brito@intercode.com.br</authorEmail>
     <authorUrl>http://</authorUrl>
-    <version>CVS: 1.0.0</version>
+    <version>CVS: 1.0.1</version>
     <description></description>
     <namespace path="src">Icodeclientes\Component\Icode_clientes</namespace>
     

@@ -1,5 +1,33 @@
 # Release Notes - Componente Joomla iCode Clientes
 
+## 🎉 v1.0.1 - Correção Crítica Joomla 6 (20 de outubro de 2025)
+
+### 🔧 Correção de Bug Crítico
+
+**Versão focada em resolver o bug que impedia instalação no Joomla 6.0**
+
+#### ✅ **Problemas Corrigidos:**
+- 🚨 **Bug crítico eliminado:** Erro "Cannot use parent when current class scope has no parent"
+- 🔧 **script.php refatorado:** Removida herança problemática de InstallerScript
+- 🆕 **Implementado DatabaseAwareInterface:** Compatibilidade com Joomla 6
+- 🔄 **Modernizados imports:** Namespaces atualizados para Joomla 6
+- 🛠️ **Classe renomeada:** ICODE_CLIENTES → icode_clientes (padrão minúsculo)
+
+#### 🎯 **Compatibilidade Atualizada:**
+- ✅ **Joomla 4.0 - 5.1:** Mantém compatibilidade total
+- ✅ **Joomla 6.0:** **AGORA COMPATÍVEL** 🎉
+- ✅ **PHP 7.4+:** Suporte mantido
+- ✅ **PHP 8.0+:** Totalmente compatível
+
+#### 🛠️ **Mudanças Técnicas:**
+- `DatabaseAwareInterface` + `DatabaseAwareTrait` implementados
+- Método `setDatabase()` substituindo `setDbo()`  
+- Validações aprimoradas para instalação de plugins/módulos
+- Verificações de segurança durante instalação
+- Código mais limpo e organizado
+
+---
+
 ## 🚀 v1.0.0 - Release Inicial (20 de outubro de 2025)
 
 ### 🎯 Primeira Versão Estável

@@ -1,7 +1,7 @@
 {
   "$schema": "https://developer.joomla.org/schemas/json-schema/web_assets.json",
   "name": "com_icode_clientes",
-  "version": "CVS: 1.0.0",
+  "version": "CVS: 1.0.1",
   "license": "GNU General Public License versão 2 ou posterior; consulte o arquivo License. txt",
   "assets": [
     {

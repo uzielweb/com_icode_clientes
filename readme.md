@@ -12,7 +12,7 @@ Este é um componente para Joomla que gerencia clientes (com_icode_clientes). O 
 
 **Empresa:** InterCode
 
-**Versão:** 1.0.0
+**Versão:** 1.0.1
 
 **Data de Criação:** 18 de outubro de 2025
 
