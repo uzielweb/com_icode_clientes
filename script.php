@@ -12,10 +12,16 @@ define('NOT_MODIFIED', 2);
 
 defined('_JEXEC') or die();
 
-use \Joomla\CMS\Factory;
-use \Joomla\CMS\Language\Text;
-use \Joomla\CMS\Installer\Installer;
-use \Joomla\CMS\Installer\InstallerScript;
+use Joomla\CMS\Factory;
+use Joomla\CMS\Installer\Installer;
+use Joomla\CMS\Installer\InstallerAdapter;
+use Joomla\CMS\Language\Text;
+use Joomla\CMS\Table\Category;
+use Joomla\Database\DatabaseAwareInterface;
+use Joomla\Database\DatabaseAwareTrait;
+use Joomla\Event\Dispatcher;
+use Joomla\Filesystem\File;
+use Joomla\Filesystem\Folder;
 
 /**
  * Updates the database structure of the component
@@ -24,8 +30,10 @@ use \Joomla\CMS\Installer\InstallerScript;
  * @author   Component Creator <support@component-creator.com>
  * @since    0.1b
  */
-class com_icode_clientesInstallerScript extends InstallerScript
+class com_icode_clientesInstallerScript implements DatabaseAwareInterface
 {
+	use DatabaseAwareTrait;
+
 	/**
 	 * The title of the component (printed on installation and uninstallation messages)
 	 *
@@ -51,15 +59,8 @@ class com_icode_clientesInstallerScript extends InstallerScript
 	 */
 	public function preflight($type, $parent)
 	{
-		$result = parent::preflight($type, $parent);
-
-		if (!$result)
-		{
-			return $result;
-		}
-
 		// logic for preflight before install
-		return $result;
+		return true;
 	}
 
 	/**
@@ -781,7 +782,7 @@ class com_icode_clientesInstallerScript extends InstallerScript
 			$plugins = $parent->get('manifest')->plugins;
 		}
 
-		if (count($plugins->children()))
+		if (isset($plugins) && $plugins && count($plugins->children()))
 		{
 			$db    = Factory::getContainer()->get('DatabaseDriver');
 			$query = $db->getQuery(true);
@@ -791,7 +792,24 @@ class com_icode_clientesInstallerScript extends InstallerScript
 				$pluginName  = (string) $plugin['plugin'];
 				$pluginGroup = (string) $plugin['group'];
 				$path        = $installation_folder . '/plugins/' . $pluginGroup . '/' . $pluginName;
+				
+				// Verificar se o diretório do plugin existe
+				if (!is_dir($path))
+				{
+					$app->enqueueMessage('Plugin directory not found: ' . $path, 'warning');
+					continue;
+				}
+				
+				// Verificar se existe um arquivo XML de manifest
+				$xmlFiles = glob($path . '/*.xml');
+				if (empty($xmlFiles))
+				{
+					$app->enqueueMessage('No XML manifest found for plugin: ' . $pluginName, 'warning');
+					continue;
+				}
+				
 				$installer   = new Installer;
+				$installer->setDatabase($db);
 
 				if (!$this->isAlreadyInstalled('plugin', $pluginName, $pluginGroup))
 				{
@@ -876,35 +894,49 @@ class com_icode_clientesInstallerScript extends InstallerScript
 			$modules = $parent->get('manifest')->modules;
 		}
 
-		if (!empty($modules))
+		if (!empty($modules) && isset($modules) && count($modules->children()))
 		{
-
-			if (count($modules->children()))
+			foreach ($modules->children() as $module)
 			{
-				foreach ($modules->children() as $module)
+				$moduleName = (string) $module['module'];
+				$path       = $installation_folder . '/modules/' . $moduleName;
+				
+				// Verificar se o diretório do módulo existe
+				if (!is_dir($path))
 				{
-					$moduleName = (string) $module['module'];
-					$path       = $installation_folder . '/modules/' . $moduleName;
-					$installer  = new Installer;
+					$app->enqueueMessage('Module directory not found: ' . $path, 'warning');
+					continue;
+				}
+				
+				// Verificar se existe um arquivo XML de manifest
+				$xmlFiles = glob($path . '/*.xml');
+				if (empty($xmlFiles))
+				{
+					$app->enqueueMessage('No XML manifest found for module: ' . $moduleName, 'warning');
+					continue;
+				}
+				
+				$installer  = new Installer;
+				$db         = Factory::getContainer()->get('DatabaseDriver');
+				$installer->setDatabase($db);
 
-					if (!$this->isAlreadyInstalled('module', $moduleName))
-					{
-						$result = $installer->install($path);
-					}
-					else
-					{
-						$result = $installer->update($path);
-					}
+				if (!$this->isAlreadyInstalled('module', $moduleName))
+				{
+					$result = $installer->install($path);
+				}
+				else
+				{
+					$result = $installer->update($path);
+				}
 
-					if ($result)
-					{
-						$app->enqueueMessage('Module ' . $moduleName . ' was installed successfully');
-					}
-					else
-					{
-						$app->enqueueMessage('There was an issue installing the module ' . $moduleName,
-							'error');
-					}
+				if ($result)
+				{
+					$app->enqueueMessage('Module ' . $moduleName . ' was installed successfully');
+				}
+				else
+				{
+					$app->enqueueMessage('There was an issue installing the module ' . $moduleName,
+						'error');
 				}
 			}
 		}
@@ -984,6 +1016,8 @@ class com_icode_clientesInstallerScript extends InstallerScript
 				if (!empty($extension))
 				{
 					$installer = new Installer;
+					$db        = Factory::getContainer()->get('DatabaseDriver');
+					$installer->setDatabase($db);
 					$result    = $installer->uninstall('plugin', $extension);
 
 					if ($result)
@@ -1085,6 +1119,8 @@ class com_icode_clientesInstallerScript extends InstallerScript
 					if (!empty($extension))
 					{
 						$installer = new Installer;
+						$db        = Factory::getContainer()->get('DatabaseDriver');
+						$installer->setDatabase($db);
 						$result    = $installer->uninstall('module', $extension);
 
 						if ($result)
