@@ -1,0 +1,12 @@
+
+INSERT INTO `#__content_types` (`type_title`, `type_alias`, `table`, `content_history_options`,`rules`,`field_mappings`)
+SELECT * FROM ( SELECT 'Cliente','com_icode_clientes.cliente','{"special":{"dbtable":"#__icode_clientes","key":"id","type":"Cliente","prefix":"Icode_clientesTable"}}', '{"formFile":"administrator\/components\/com_icode_clientes\/models\/forms\/cliente.xml", "hideFields":["checked_out","checked_out_time","params","language"], "ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time"], "convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"group_id","targetTable":"#__usergroups","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}]}', CASE WHEN 'rules' is null THEN " " ELSE " " END as rules, CASE  WHEN 'field_mappings' is null THEN " " ELSE " " END as field_mappings) AS tmp
+WHERE NOT EXISTS (
+	SELECT type_alias FROM `#__content_types` WHERE (`type_alias` = 'com_icode_clientes.cliente')
+) LIMIT 1;
+
+UPDATE `#__content_types` SET
+	`type_title` = 'Cliente', 
+	`table` = '{"special":{"dbtable":"#__icode_clientes","key":"id","type":"Cliente","prefix":"Icode_clientesTable"}}', 
+	`content_history_options` = '{"formFile":"administrator\/components\/com_icode_clientes\/models\/forms\/cliente.xml", "hideFields":["checked_out","checked_out_time","params","language"], "ignoreChanges":["modified_by", "modified", "checked_out", "checked_out_time"], "convertToInt":["publish_up", "publish_down"], "displayLookup":[{"sourceColumn":"catid","targetTable":"#__categories","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"group_id","targetTable":"#__usergroups","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"created_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"},{"sourceColumn":"access","targetTable":"#__viewlevels","targetColumn":"id","displayColumn":"title"},{"sourceColumn":"modified_by","targetTable":"#__users","targetColumn":"id","displayColumn":"name"}]}'
+WHERE (`type_alias` = 'com_icode_clientes.cliente');

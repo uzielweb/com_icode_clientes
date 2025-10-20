@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<metadata>
+	<layout title="COM_ICODE_CLIENTES_TITLE_LIST_VIEW_CLIENTES" option="View">
+        <message>
+                        <![CDATA[COM_ICODE_CLIENTES_TITLE_LIST_VIEW_CLIENTES_DESC]]>
+        </message>
+	</layout>
+	
+</metadata>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="4.0" type="plugin" group="finder">
+    <name>plg_finder_icode_clientesclientes</name>
+    <author>Rogerio Brito</author>
+    <creationDate>2025-10-18</creationDate>
+    <copyright>2025 Rogerio Brito</copyright>
+    <license>GNU General Public License versão 2 ou posterior; consulte o arquivo License. txt</license>
+    <authorEmail>rogerio.brito@intercode.com.br</authorEmail>
+    <authorUrl>http://</authorUrl>
+    <version>CVS: 1.0.0</version>
+    <description>PLG_FINDER_COM_ICODE_CLIENTES_XML_DESCRIPTION</description>
+    <files>
+        <filename plugin="icode_clientesclientes">icode_clientesclientes.php</filename>
+        <filename>index.html</filename>
+    </files>
+    <languages folder="languages">
+        
+			<language tag="en-GB">en-GB/plg_finder_icode_clientesclientes.ini</language>
+			<language tag="en-GB">en-GB/plg_finder_icode_clientesclientes.sys.ini</language>
+			<language tag="pt-BR">pt-BR/plg_finder_icode_clientesclientes.ini</language>
+			<language tag="pt-BR">pt-BR/plg_finder_icode_clientesclientes.sys.ini</language>
+    </languages>
+    <config>
+    </config>
+    <updateservers>
+        <server type="extension" priority="1" name="com_icode_clientes">https://www.component-creator.com/index.php?task=builder.preupdatecheckhook&amp;option=com_combuilder&amp;component=MTM2OC0yMTY0MTk</server>
+    </updateservers>
+</extension>
